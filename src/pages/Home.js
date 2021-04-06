@@ -27,6 +27,9 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => {
         setMovies(data.Search || []);
+        if (data.Error) {
+          alert(data.Error);
+        }
       });
   };
 
@@ -40,6 +43,7 @@ export default function Home() {
             aria-label="Search Movies"
             onChange={handleChange}
             value={search}
+            required
           />
           <InputGroup.Append>
             <Button type="submit" variant="outline-secondary">
