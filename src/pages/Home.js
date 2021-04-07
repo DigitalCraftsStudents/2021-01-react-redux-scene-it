@@ -56,7 +56,14 @@ export default function Home() {
       <Row>
         {movies.map((movie) => {
           return (
-            <Col xs={12} sm={6} md={4} lg={3} className="mb-4">
+            <Col
+              key={movie.imdbID}
+              xs={12}
+              sm={6}
+              md={4}
+              lg={3}
+              className="mb-4"
+            >
               <MovieCard movie={movie} />
             </Col>
           );
