@@ -8,8 +8,18 @@ export function createAddMovie(movie) {
   };
 }
 
-export function createDeleteMovie() {
+export function createDeleteMovie(imdbID) {
   return {
     type: DELETE_MOVIE,
+    imdbID,
+  };
+}
+
+export const SET_LOADING = 'SET_LOADING';
+
+export function setLoading(value) {
+  return {
+    type: SET_LOADING,
+    value,
   };
 }

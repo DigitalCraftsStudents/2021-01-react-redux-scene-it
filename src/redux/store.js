@@ -1,8 +1,12 @@
-import { createStore } from 'redux';
+import { combineReducers, createStore } from 'redux';
 import { movieReducer } from './reducers';
 
+const rootReducer = combineReducers({
+  movies: movieReducer,
+});
+
 const store = createStore(
-  movieReducer,
+  rootReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 

@@ -7,11 +7,14 @@ import {
   InputGroup,
   Row,
 } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import MovieCard from '../components/MovieCard';
+import { setLoading } from '../redux/actions';
 
 export default function Home() {
   const [search, setSearch] = useState('');
   const [movies, setMovies] = useState([]);
+  const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -23,9 +26,11 @@ export default function Home() {
   };
 
   const fetchMovies = () => {
+    dispatch(setLoading(true));
     fetch(`http://www.omdbapi.com/?apikey=59354c85&s=${search}`)
       .then((res) => res.json())
       .then((data) => {
+        dispatch(setLoading(false));
         setMovies(data.Search || []);
         if (data.Error) {
           alert(data.Error);
