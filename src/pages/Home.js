@@ -7,14 +7,15 @@ import {
   InputGroup,
   Row,
 } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import MovieCard from '../components/MovieCard';
-import { setLoading } from '../redux/actions';
+import { setData, setLoading } from '../redux/actions';
 
 export default function Home() {
   const [search, setSearch] = useState('');
-  const [movies, setMovies] = useState([]);
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.loading);
+  const movies = useSelector((state) => state.data);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -31,7 +32,8 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => {
         dispatch(setLoading(false));
-        setMovies(data.Search || []);
+        // setMovies(data.Search || []);
+        dispatch(setData(data.Search || []));
         if (data.Error) {
           alert(data.Error);
         }
@@ -58,22 +60,26 @@ export default function Home() {
         </InputGroup>
       </Form>
 
-      <Row>
-        {movies.map((movie) => {
-          return (
-            <Col
-              key={movie.imdbID}
-              xs={12}
-              sm={6}
-              md={4}
-              lg={3}
-              className="mb-4"
-            >
-              <MovieCard movie={movie} />
-            </Col>
-          );
-        })}
-      </Row>
+      {loading ? (
+        'Loading...'
+      ) : (
+        <Row>
+          {movies.map((movie) => {
+            return (
+              <Col
+                key={movie.imdbID}
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                className="mb-4"
+              >
+                <MovieCard movie={movie} />
+              </Col>
+            );
+          })}
+        </Row>
+      )}
     </div>
   );
 }
